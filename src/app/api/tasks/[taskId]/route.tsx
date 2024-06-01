@@ -1,13 +1,13 @@
+import { connectDB } from '@/libs/db';
+import Task from "@/models/task";
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/app/utils/mongoose";
-import Task from "@/app/models/task";
 
 interface Params {
   taskId: string;
 }
 
-export async function GET(request: any, { params }: { params: Params }) {
-  connectToDatabase();
+export async function GET(request: any, { params }: { params: Params; }) {
+  await connectDB();
   try {
     const taskFound = await Task.findOne({
       _id: params.taskId,
@@ -34,7 +34,7 @@ export async function GET(request: any, { params }: { params: Params }) {
   }
 }
 
-export async function DELETE(request: any, { params }: { params: Params }) {
+export async function DELETE(request: any, { params }: { params: Params; }) {
   try {
     const taskDeleted = await Task.findByIdAndDelete(params.taskId);
     if (!taskDeleted)
@@ -57,7 +57,7 @@ export async function DELETE(request: any, { params }: { params: Params }) {
   }
 }
 
-export async function PUT(request: any, { params }: { params: Params }) {
+export async function PUT(request: any, { params }: { params: Params; }) {
   try {
     const data = await request.json();
     const taskUpdated = await Task.findByIdAndUpdate(params.taskId, data, {
