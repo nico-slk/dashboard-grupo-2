@@ -1,9 +1,9 @@
-import { connectToDatabase } from "@/app/utils/mongoose";
+import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
-import Board from "@/app/models/board";
+import Board from "@/models/board";
 
 export async function GET() {
-    connectToDatabase();
+    connectDB();
     const boards = await Board.find().populate('tasks');
     return NextResponse.json(boards);
 }

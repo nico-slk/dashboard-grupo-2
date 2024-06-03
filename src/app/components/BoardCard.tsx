@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import { Board } from "../types/board";
+import { Board } from "@/types/board";
 
 interface BoardCardProps {
   board: Board;
