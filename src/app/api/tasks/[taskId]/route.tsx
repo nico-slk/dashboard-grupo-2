@@ -1,14 +1,15 @@
 import { connectDB } from '@/libs/db';
-import Task from "@/models/task";
 import { NextResponse } from "next/server";
+import Task from '@/models/task';
+import Board from "@/models/board";
 
 interface Params {
-  taskId: string;
+    taskId: string;
 }
 
-export async function GET(request: any, { params }: { params: Params; }) {
-  await connectDB();
-  try {
+export async function GET(request: any, { params }: { params: Params }) {
+    await connectDB();
+    try {
     const taskFound = await Task.findOne({
       _id: params.taskId,
     });
@@ -20,21 +21,14 @@ export async function GET(request: any, { params }: { params: Params; }) {
         {
           status: 404,
         }
-      );
+        return NextResponse.json(taskFound);
+    } catch (error) {
+        return NextResponse.json({ message: "An unexpected error occurred" }, { status: 500 });
     }
-
-    return NextResponse.json(taskFound);
-  } catch (error) {
-    return NextResponse.json(
-      { message: "An unexpected error occurred" },
-      {
-        status: 500,
-      }
-    );
-  }
 }
 
-export async function DELETE(request: any, { params }: { params: Params; }) {
+export async function DELETE(request: any, { params }: { params: Params }) {
+    connectDB();
   try {
     const taskDeleted = await Task.findByIdAndDelete(params.taskId);
     if (!taskDeleted)
@@ -45,19 +39,17 @@ export async function DELETE(request: any, { params }: { params: Params; }) {
         {
           status: 404,
         }
-      );
-    return NextResponse.json(taskDeleted);
-  } catch (error) {
-    return NextResponse.json(
-      { message: "An unexpected error occurred" },
-      {
-        status: 500,
-      }
-    );
-  }
+
+        await Board.findByIdAndUpdate(taskDeleted.board, { $pull: { tasks: params.taskId } });
+
+        return NextResponse.json(taskDeleted);
+    } catch (error) {
+        return NextResponse.json({ message: "An unexpected error occurred" }, { status: 500 });
+    }
 }
 
-export async function PUT(request: any, { params }: { params: Params; }) {
+export async function PUT(request: any, { params }: { params: Params }) {
+    connectDB()
   try {
     const data = await request.json();
     const taskUpdated = await Task.findByIdAndUpdate(params.taskId, data, {
@@ -69,4 +61,4 @@ export async function PUT(request: any, { params }: { params: Params; }) {
       status: 400,
     });
   }
-}
+
