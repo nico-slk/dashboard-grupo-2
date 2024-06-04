@@ -4,8 +4,8 @@ import { useEffect, useState, useCallback, ChangeEvent, FormEvent } from "react"
 import { useParams } from "next/navigation";
 import TaskCard from "@/app/components/TaskCard";
 import BoardForm from "../page";
-import { Board } from "@/app/types/board";
-import { Task } from "@/app/types/task";
+import { Board } from "@/types/board";
+import { Task } from "@/types/task";
 
 export default function BoardPage() {
     const params = useParams();
@@ -24,7 +24,7 @@ export default function BoardPage() {
     const [taskData, setTaskData] = useState<Omit<Task, '_id' | 'board' | 'createdAt' | 'updatedAt' | '__v'>>({
         title: "",
         description: "",
-        priority: "Task List" // Añadimos la prioridad por defecto
+        priority: "Task List" 
     });
 
     const fetchBoard = useCallback(async () => {
@@ -39,6 +39,25 @@ export default function BoardPage() {
                 }
             } catch (error) {
                 console.error("Error fetching board data:", error);
+            }
+        }
+    }, [boardId]);
+
+    const fetchTasks = useCallback(async () => {
+        if (boardId) {
+            try {
+                const res = await fetch(`/api/boards/${boardId}/tasks`);
+                const tasks = await res.json();
+                if (res.ok) {
+                    setBoardData((prevData) => ({
+                        ...prevData,
+                        tasks: tasks
+                    }));
+                } else {
+                    console.error("Failed to fetch tasks:", tasks.message);
+                }
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
             }
         }
     }, [boardId]);
@@ -111,7 +130,8 @@ export default function BoardPage() {
 
     useEffect(() => {
         fetchBoard();
-    }, [fetchBoard]);
+        fetchTasks();
+    }, [fetchBoard, fetchTasks]);
 
     return (
         <div>
@@ -177,4 +197,3 @@ export default function BoardPage() {
         </div>
     );
 }
-

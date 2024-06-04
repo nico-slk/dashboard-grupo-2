@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from '@/app/utils/mongoose';
-import Board from '@/app/models/board';
-import Task from '@/app/models/task';
+import { connectDB } from '@/libs/db';
+import Board from '@/models/board';
+import Task from '@/models/task';
 
 export async function GET(request: any, { params }: { params: { boardId: string } }) {
-    connectToDatabase();
+    connectDB();
     try {
         const board = await Board.findById(params.boardId).populate('tasks');
         if (!board) {
@@ -18,7 +18,7 @@ export async function GET(request: any, { params }: { params: { boardId: string 
 
 
 export async function POST(request: { json: () => any }) {
-    connectToDatabase();
+    connectDB();
     try {
         const data = await request.json();
         const newTask = new Task(data);
@@ -33,7 +33,7 @@ export async function POST(request: { json: () => any }) {
 }
 
 export async function PUT(request: any, { params }: { params : { boardId: string } }) {
-    connectToDatabase();
+    connectDB();
     try {
         const data = await request.json();
         const boardUpdated = await Board.findByIdAndUpdate(params.boardId, data, {
@@ -48,7 +48,7 @@ export async function PUT(request: any, { params }: { params : { boardId: string
 }
 
 export async function DELETE(request: any, { params }: { params: { boardId: string }}) {
-    connectToDatabase();
+    connectDB();
     try {
         const boardDeleted = await Board.findByIdAndDelete(params.boardId);
         if (!boardDeleted) {
