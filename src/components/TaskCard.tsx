@@ -1,6 +1,7 @@
-import React from 'react';
 import { Task } from '@/types/task';
 import Link from 'next/link';
+import React from 'react';
+
 
 interface TaskCardProps {
     task: Task;
@@ -11,7 +12,7 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task, onDragStart, draggable }) => {
     return (
         <Link href={`/tasks/${task._id}`} >
-            <div 
+            <div
                 className="bg-white p-4 rounded-lg shadow-md mb-2 cursor-pointer"
                 draggable={draggable}
                 onDragStart={onDragStart}
@@ -25,4 +26,3 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDragStart, draggable }) => 
 };
 
 export default TaskCard;
-

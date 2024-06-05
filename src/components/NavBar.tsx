@@ -1,5 +1,6 @@
 'use client';
 import { signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -15,7 +16,6 @@ const NavBar = () => {
 
   const handleRegister = () => {
     router.push('/auth/register');
-
   };
 
   const handleLogIn = () => {
@@ -25,22 +25,24 @@ const NavBar = () => {
 
   return (
     <div className='w-full h-28 flex flex-row justify-around items-center'>
-      <h1><Link href={'/'}>Page title</Link></h1>
+      <Link href={'/'}>
+        <Image src={'https://i.ibb.co/JHxygrY/hedy-h.png'} height={60} width={60} alt='logo' priority={true} />
+      </Link>
       {session ?
         <div className='flex flex-row-reverse justify-between items-center w-1/4'>
           <button
-            className='w-48 h-12 border-solid border-2 border-red-400 bg-red-500 text-white'
+            className='w-48 h-12 border-solid border-2 rounded-lg border-red-400 bg-red-500 text-white'
             onClick={handleLogOut}
           >LogOut</button>
         </div>
         :
         <div className='flex flex-row-reverse justify-between items-center w-1/4'>
           <button
-            className='w-48 h-12 border-solid border-2 border-blue-400 bg-blue-500 text-white'
+            className='w-48 h-12 border-solid border-2 rounded-lg border-blue-400 bg-blue-500 text-white'
             onClick={handleLogIn}
           >LogIn</button>
           <button
-            className='w-48 h-12 border-solid border-2 border-cyan-400 bg-cyan-500 text-white'
+            className='w-48 h-12 border-solid border-2 rounded-lg border-cyan-400 bg-cyan-500 text-white'
             onClick={handleRegister}
           >Register</button>
         </div>
