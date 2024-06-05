@@ -1,8 +1,8 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
 import { useSession } from 'next-auth/react';
+import { useParams, useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 
 export default function BoardForm() {
     const router = useRouter();
@@ -41,7 +41,7 @@ export default function BoardForm() {
         if (session) {
             setBoardData(prevData => ({
                 ...prevData,
-                createdBy: session.user?.email  || ''
+                createdBy: session.user?.email || ''
             }));
         }
     }, [session]);
@@ -93,7 +93,7 @@ export default function BoardForm() {
     };
 
     return (
-        <div className="flex flex-col items-center h-screen">
+        <div className="flex flex-col items-center h-full text-black">
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
                 <h2 className="text-2xl mb-4">{!boardId ? "Create Board" : "Update Board"}</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">

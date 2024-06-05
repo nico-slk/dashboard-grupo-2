@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Home = () => {
   return (
-    <main className="flex w-full flex-col items-center justify-center pt-24">
+    <main className="flex w-full min-w-[600px] flex-col items-center justify-center pt-24">
       <div className='flex flex-col items-center justify-center'>
         <p className='pl-8 self-start text-xl'>Welcome to</p>
         <Image src={'https://i.ibb.co/7jrkzKj/hedy-logo.png'} height={500} width={500} alt='logo-home' />
