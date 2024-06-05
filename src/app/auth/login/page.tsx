@@ -12,7 +12,7 @@ const styles = {
 
 const LogIn = () => {
   const [errorState, setErrorState] = useState('');
-  const route = useRouter();
+  const router = useRouter();;
 
   const handleLogIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const LogIn = () => {
       });
 
       if (res?.error) setErrorState(res?.error as string);
-      if (res?.ok) route.push('/dashboard');
+      if (res?.ok) router.push('/dashboard');
 
     } catch (error) {
       setErrorState('Error al intentar loguearse.');
@@ -35,8 +35,6 @@ const LogIn = () => {
 
   return (
     <div className='flex justify-center items-center flex-col h-full w-full'>
-
-
       <form action="" method="post" className={styles.form} onSubmit={handleLogIn}>
         {errorState !== '' && <div className={styles.errorMessage}>{errorState}</div>}
         <input type="email" name="email" id="input-email" placeholder='example@email.com' className={styles.input} />
@@ -45,6 +43,7 @@ const LogIn = () => {
       </form>
     </div>
   );
+
 };
 
 export default LogIn;

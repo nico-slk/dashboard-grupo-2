@@ -1,5 +1,5 @@
 'use client';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
@@ -13,6 +13,7 @@ const styles = {
 const Register = () => {
   const [errorState, setErrorState] = useState('');
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,10 +67,10 @@ const Register = () => {
         <input type="email" name="email" id="input-email" placeholder='example@email.com' className={styles.input} />
         <input type="password" name="password" id="input-password" placeholder='********' className={styles.input} />
         <button type="submit" className={styles.button}>Submit</button>
+        <button type="button" onClick={async () => await signIn("google")} className='bg-red-600 rounded-lg border-2 border-red-400 p-4 font-semibold text-lg'>LogIn with Google</button>
       </form>
     </div>
   );
-
 };
 
 export default Register;

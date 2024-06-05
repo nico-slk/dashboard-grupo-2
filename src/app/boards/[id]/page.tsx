@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback, ChangeEvent, FormEvent } from "react";
-import { useParams } from "next/navigation";
-import TaskCard from "@/app/components/TaskCard";
-import BoardForm from "../page";
+import TaskCard from "@/components/TaskCard";
 import { Board } from "@/types/board";
 import { Task } from "@/types/task";
+import { useParams } from "next/navigation";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
+import BoardForm from "../page";
 
 export default function BoardPage() {
     const params = useParams();
@@ -24,7 +24,7 @@ export default function BoardPage() {
     const [taskData, setTaskData] = useState<Omit<Task, '_id' | 'board' | 'createdAt' | 'updatedAt' | '__v'>>({
         title: "",
         description: "",
-        priority: "Task List" 
+        priority: "Task List"
     });
 
     const fetchBoard = useCallback(async () => {

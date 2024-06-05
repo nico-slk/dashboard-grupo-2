@@ -1,19 +1,27 @@
 import Link from "next/link";
 import { Task } from "../types/task";
 
+
 interface TaskCardProps {
     task: Task;
+    onDragStart: (e: React.DragEvent) => void;
+    draggable: boolean;
 }
 
-export default function TaskCard({ task }: TaskCardProps) {
+const TaskCard: React.FC<TaskCardProps> = ({ task, onDragStart, draggable }) => {
     return (
-        <Link href={`/tasks/${task._id}`}>
-            <div className="hover:cursor-pointer bg-gray-600">
-                <h3>{task.title}</h3>
-                <h3>{task.description}</h3>
-                <p>Created at: {new Date(task.createdAt).toLocaleDateString()}</p>
+        <Link href={`/tasks/${task._id}`} >
+            <div
+                className="bg-white p-4 rounded-lg shadow-md mb-2 cursor-pointer"
+                draggable={draggable}
+                onDragStart={onDragStart}
+            >
+                <h3 className="text-lg font-bold">{task.title}</h3>
+                <p>{task.description}</p>
+                <p className="text-sm text-gray-600">{task.priority}</p>
             </div>
         </Link>
-
     );
-}
+};
+
+export default TaskCard;
