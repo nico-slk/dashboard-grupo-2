@@ -6,6 +6,7 @@ import TaskCard from "@/components/TaskCard";
 import BoardForm from "../page";
 import { Board } from "@/types/board";
 import { Task } from "@/types/task";
+import { useSession } from 'next-auth/react';
 
 export default function BoardPage() {
     const params = useParams();
@@ -24,8 +25,11 @@ export default function BoardPage() {
     const [taskData, setTaskData] = useState<Omit<Task, '_id' | 'board' | 'createdAt' | 'updatedAt' | '__v'>>({
         title: "",
         description: "",
-        priority: "Task List" 
+        priority: "Task List",
+        createdBy: ""
     });
+
+    const { data: session, status } = useSession();
 
     const fetchBoard = useCallback(async () => {
         if (boardId) {
@@ -71,7 +75,7 @@ export default function BoardPage() {
         try {
             const res = await fetch('/api/tasks', {
                 method: "POST",
-                body: JSON.stringify({ ...taskData, board: boardId }),
+                body: JSON.stringify({ ...taskData, board: boardId, createdBy: session?.user?.email || "" }),
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -82,7 +86,7 @@ export default function BoardPage() {
                     ...prevData,
                     tasks: [...prevData.tasks, data]
                 }));
-                setTaskData({ title: "", description: "", priority: "Task List" });
+                setTaskData({ title: "", description: "", priority: "Task List", createdBy: "" });
             } else {
                 throw new Error('Failed to create task');
             }
