@@ -141,7 +141,7 @@ export default function BoardPage() {
         <div>
             <BoardForm />
 
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg mt-8">
+            <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black">
                 <h2 className="text-2xl mb-4">Tasks</h2>
                 <form onSubmit={handleTaskSubmit} className="space-y-4 mb-4">
                     <input
@@ -175,7 +175,7 @@ export default function BoardPage() {
                     </button>
                 </form>
 
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-4 gap-4 min-h-[800px] ">
                     {['Task List', 'Urgent', 'In Process', 'Done'].map((priority) => (
                         <div
                             key={priority}

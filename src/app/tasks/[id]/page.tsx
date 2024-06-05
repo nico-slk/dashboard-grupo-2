@@ -1,7 +1,7 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState, useEffect, useCallback } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 
 export default function FormTask() {
     const router = useRouter();
@@ -116,7 +116,7 @@ export default function FormTask() {
     }
 
     return (
-        <div className="flex justify-center items-center mt-8">
+        <div className="flex justify-center items-center mt-8  text-black">
             <form onSubmit={handleSubmit} className="space-y-4">
                 <h2 className="text-center font-bold">
                     {taskId ? "Update Task" : "Create Task"}

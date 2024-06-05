@@ -24,25 +24,25 @@ const NavBar = () => {
 
 
   return (
-    <div className='w-full h-28 flex flex-row justify-around items-center'>
+    <div className='w-full h-24 min-w-[600px] flex flex-row justify-around items-center mb-28'>
       <Link href={'/'}>
         <Image src={'https://i.ibb.co/JHxygrY/hedy-h.png'} height={60} width={60} alt='logo' priority={true} />
       </Link>
       {session ?
         <div className='flex flex-row-reverse justify-between items-center w-1/4'>
           <button
-            className='w-48 h-12 border-solid border-2 rounded-lg border-red-400 bg-red-500 text-white'
+            className='w-48 h-12 border-solid border-2 rounded-lg border-red-400 text-white'
             onClick={handleLogOut}
-          >LogOut</button>
+          >Log Out</button>
         </div>
         :
-        <div className='flex flex-row-reverse justify-between items-center w-1/4'>
+        <div className='flex flex-row-reverse justify-between items-center max-w-2/4'>
           <button
-            className='w-48 h-12 border-solid border-2 rounded-lg border-blue-400 bg-blue-500 text-white'
+            className='w-48 h-12 ml-2 border-solid border-2 rounded-lg border-blue-400 bg-blue-500 text-white'
             onClick={handleLogIn}
-          >LogIn</button>
+          >Log In</button>
           <button
-            className='w-48 h-12 border-solid border-2 rounded-lg border-cyan-400 bg-cyan-500 text-white'
+            className='w-48 h-12 ml-2 border-solid border-2 rounded-lg border-cyan-400 bg-cyan-500 text-white'
             onClick={handleRegister}
           >Register</button>
         </div>
