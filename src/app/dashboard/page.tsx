@@ -1,7 +1,7 @@
 import { connectDB } from '@/libs/db';
 import Board from '@/models/board';
 import BoardForm from "../boards/page";
-import BoardCard from "../components/BoardCard";
+import BoardCard from '@/components/BoardCard';
 
 async function loadBoards() {
     await connectDB();
