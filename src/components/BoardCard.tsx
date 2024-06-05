@@ -15,5 +15,6 @@ export default function BoardCard({ board }: BoardCardProps) {
                 <p>Created at: {new Date(board.createdAt).toLocaleDateString()}</p>
             </div>
         </Link>
+
     );
 }

@@ -1,6 +1,8 @@
 "use client";
+
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useSession } from 'next-auth/react';
 
 export default function BoardForm() {
     const router = useRouter();
@@ -10,8 +12,10 @@ export default function BoardForm() {
     const [boardData, setBoardData] = useState({
         title: "",
         description: "",
-        tasks: []
+        createdBy: ""
     });
+
+    const { data: session, status } = useSession();
 
     const fetchBoard = useCallback(async () => {
         if (boardId) {
@@ -33,6 +37,15 @@ export default function BoardForm() {
         fetchBoard();
     }, [fetchBoard]);
 
+    useEffect(() => {
+        if (session) {
+            setBoardData(prevData => ({
+                ...prevData,
+                createdBy: session.user?.email  || ''
+            }));
+        }
+    }, [session]);
+
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setBoardData({
             ...boardData,
@@ -43,33 +56,18 @@ export default function BoardForm() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            if (!boardId) {
-                const response = await fetch('/api/boards', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ title: boardData.title, description: boardData.description })
-                });
-                if (response.ok) {
-                    router.refresh();
-                } else {
-                    throw new Error('Failed to create board');
-                }
+            const response = await fetch(boardId ? `/api/boards/${boardId}` : '/api/boards', {
+                method: boardId ? 'PUT' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ...boardData })
+            });
+            if (response.ok) {
+                router.push('/dashboard');
+                router.refresh();
             } else {
-                const response = await fetch(`/api/boards/${boardId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ title: boardData.title, description: boardData.description })
-                });
-                if (response.ok) {
-                    router.push('/dashboard');
-                    router.refresh();
-                } else {
-                    throw new Error('Failed to update board');
-                }
+                throw new Error(`Failed to ${boardId ? 'update' : 'create'} board`);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -137,4 +135,3 @@ export default function BoardForm() {
         </div>
     );
 }
-

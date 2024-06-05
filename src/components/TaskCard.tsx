@@ -1,5 +1,6 @@
-import Link from "next/link";
-import { Task } from "../types/task";
+import { Task } from '@/types/task';
+import Link from 'next/link';
+import React from 'react';
 
 
 interface TaskCardProps {
