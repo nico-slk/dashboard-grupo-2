@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback, ChangeEvent, FormEvent } from "react";
 import { useParams } from "next/navigation";
-import TaskCard from "@/app/components/TaskCard";
+import TaskCard from "@/components/TaskCard";
 import BoardForm from "../page";
 import { Board } from "@/types/board";
 import { Task } from "@/types/task";
