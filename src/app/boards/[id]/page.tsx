@@ -94,7 +94,7 @@ export default function BoardPage({ priority }: PriorityProps) {
   const fetchTasks = useCallback(async () => {
     if (boardId) {
       try {
-        const res = await fetch(`/api/boards/${boardId}/tasks`);
+        const res = await fetch(`/api/boards/${boardId}`);
         const tasks = await res.json();
         if (res.ok) {
           setBoardData((prevData) => ({
@@ -113,7 +113,7 @@ export default function BoardPage({ priority }: PriorityProps) {
   const fetchPriorities = useCallback(async () => {
     if (boardId) {
       try {
-        const res = await fetch(`/api/boards/${boardId}/priorities`);
+        const res = await fetch(`/api/boards/${boardId}`);
         const data = await res.json();
         if (res.ok) {
           setColData(data);
