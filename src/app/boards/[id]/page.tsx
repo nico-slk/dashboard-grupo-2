@@ -4,7 +4,6 @@ import { Board } from "@/types/board";
 import { Priority } from "@/types/priority";
 import { Task } from "@/types/task";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
   ChangeEvent,
