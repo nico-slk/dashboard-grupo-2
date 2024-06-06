@@ -253,7 +253,7 @@ export default function BoardPage({ priority }: PriorityProps) {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className={`flex h-screen ${styles.backgroundContainer}`}>
       <div className="w-1/4">
         <BoardForm />
         <div
@@ -267,7 +267,7 @@ export default function BoardPage({ priority }: PriorityProps) {
               className={`flex justify-between w-full p-1 ${styles.toggleButton}`}
             >
               <h2 className="text-md font-semibold text-gray-700 mx-2">
-                Column
+                Priority
               </h2>
               <span
                 className={`${styles.arrow} ${
@@ -297,14 +297,14 @@ export default function BoardPage({ priority }: PriorityProps) {
               <input
                 type="text"
                 name="title"
-                placeholder="Column title"
+                placeholder="Priority title"
                 className="bg-white font-semibold shadow-md text-gray-600 border border-gray-300 px-2 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400 mx-auto"
               />
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg"
               >
-                Add column
+                Add Priority
               </button>
             </form>
           </div>

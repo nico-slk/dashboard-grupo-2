@@ -17,10 +17,9 @@ async function loadBoards() {
 async function Dashboard() {
   const boards = await loadBoards();
   return (
-    <div>
-      <BoardForm />
-      <br />
-      <div className="grid grid-cols-3 gap-2">
+    <div className='flex flex-col items-center justify-center'>
+        <BoardForm />
+      <div className="mt-8 grid grid-cols-3 gap-2 min-h-screen">
         {boards.map(board => (
           <BoardCard board={board} key={board._id} />
         ))}
