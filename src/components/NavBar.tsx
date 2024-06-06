@@ -31,18 +31,18 @@ const NavBar = () => {
       {session ?
         <div className='flex flex-row-reverse justify-between items-center w-1/4'>
           <button
-            className='w-48 h-12 border-solid border-2 rounded-lg border-red-400 text-white'
+            className='w-48 h-12 rounded-lg border-red-400 hover:bg-red-400 hover:bg-opacity-15 text-white'
             onClick={handleLogOut}
           >Log Out</button>
         </div>
         :
         <div className='flex flex-row-reverse justify-between items-center max-w-2/4'>
           <button
-            className='w-48 h-12 ml-2 border-solid border-2 rounded-lg border-blue-400 bg-blue-500 text-white'
+            className='w-48 h-12 ml-2 rounded-lg border-blue-400 bg-blue-500 hover:bg-blue-600 text-white'
             onClick={handleLogIn}
           >Log In</button>
           <button
-            className='w-48 h-12 ml-2 border-solid border-2 rounded-lg border-cyan-400 bg-cyan-500 text-white'
+            className='w-48 h-12 ml-2 rounded-lg border-cyan-400 bg-cyan-500 hover:bg-cyan-600 text-white'
             onClick={handleRegister}
           >Register</button>
         </div>
