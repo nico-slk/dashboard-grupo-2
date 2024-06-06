@@ -1,9 +1,10 @@
 "use client";
 import TaskCard from "@/components/TaskCard";
 import { Board } from "@/types/board";
-import { Task } from "@/types/task";
 import { Priority } from "@/types/priority";
+import { Task } from "@/types/task";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
   ChangeEvent,
@@ -12,8 +13,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import BoardForm from "../page";
-import Link from "next/link";
 
 interface PriorityProps {
   priority: Priority;
@@ -238,9 +237,9 @@ export default function BoardPage({ priority }: PriorityProps) {
   };
 
   return (
-    <div>
-      <BoardForm />
-      <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black">
+    <div className='flex flex-col items-center  w-full  min-w-[600px]'>
+      {/* <BoardForm /> */}
+      <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black w-full max-w-[800px]">
         <h2 className="text-2xl mb-4">Add New Priority</h2>
         <form onSubmit={handlePrioritySubmit} className="space-y-4 mb-4">
           <input
@@ -257,7 +256,7 @@ export default function BoardPage({ priority }: PriorityProps) {
           </button>
         </form>
       </div>
-      <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black">
+      <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black w-full max-w-[800px]" >
         <h2 className="text-2xl mb-4">Tasks</h2>
         <form onSubmit={handleTaskSubmit} className="space-y-4 mb-4">
           <input
