@@ -4,7 +4,7 @@ import Board from "@/models/board";
 
 export async function GET() {
     connectDB();
-    const boards = await Board.find().populate('tasks');
+    const boards = await Board.find().populate('tasks').populate('priorities');
     return NextResponse.json(boards);
 }
 

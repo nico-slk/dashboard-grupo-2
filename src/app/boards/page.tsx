@@ -1,13 +1,18 @@
 "use client";
-
-import { useSession } from 'next-auth/react';
-import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useSession } from 'next-auth/react';
+import styles from "../styles.module.css";
 
 export default function BoardForm() {
     const router = useRouter();
     const params = useParams();
     const boardId = Array.isArray(params.id) ? params.id[0] : params.id;
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const handleToggle = () => {
+        setIsExpanded(!isExpanded);
+    };
 
     const [boardData, setBoardData] = useState({
         title: "",
@@ -41,7 +46,7 @@ export default function BoardForm() {
         if (session) {
             setBoardData(prevData => ({
                 ...prevData,
-                createdBy: session.user?.email || ''
+                createdBy: session.user?.email  || ''
             }));
         }
     }, [session]);
@@ -93,45 +98,51 @@ export default function BoardForm() {
     };
 
     return (
-        <div className="flex flex-col items-center h-full text-black">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg">
-                <h2 className="text-2xl mb-4">{!boardId ? "Create Board" : "Update Board"}</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block mb-2">Title:</label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={boardData.title}
-                            onChange={handleChange}
-                            className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full"
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-2">Description:</label>
-                        <textarea
-                            name="description"
-                            value={boardData.description}
-                            onChange={handleChange}
-                            className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full"
-                        ></textarea>
-                    </div>
-                    <button
-                        type="submit"
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded-lg"
-                    >
-                        {!boardId ? "Create" : "Update"} Board
-                    </button>
-                </form>
-                {boardId && (
-                    <button
-                        onClick={handleDelete}
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded-lg mt-4"
-                    >
-                        Delete Board
-                    </button>
-                )}
-            </div>
+        <div>
+        <div className={`flex flex-col items-center h-screen bg-white shadow-md max-w-lg ${styles.formContainer} ${isExpanded ? styles.open : ''}`}>
+        <button onClick={handleToggle} className={`flex justify-between w-full p-1 ${styles.toggleButton}`}>
+        <h2 className="text-gray-700">{!boardId ? "Create Board" : "Update Board"}</h2>
+        <span className={`${styles.arrow} ${isExpanded ? styles.down : styles.right}`}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+  <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+</svg>
+</span>
+        </button>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <input
+                        type="text"
+                        name="title"
+                        placeholder="Title"
+                        value={boardData.title}
+                        onChange={handleChange}
+                        className="bg-gray-200 border border-gray-300 px-4 py-2 w-full focus:outline-none focus:border-gray-400"
+                    />
+                </div>
+                <div>
+                    <textarea
+                        name="description"
+                        placeholder="Descripcion..."
+                        value={boardData.description}
+                        onChange={handleChange}
+                        className="bg-gray-200 border border-gray-300 px-4 py-2 w-full focus:outline-none focus:border-gray-400"
+                    ></textarea>
+                </div>
+                <button
+                    type="submit"
+                    className="bg-green-500 hover:bg-green-600 text-white font-semibold px-2 py-1 w-full"
+                >
+                    {!boardId ? "Create" : "Update"} Board
+                </button>
+            </form>
+            {boardId && (
+                <button
+                    onClick={handleDelete}
+                    className="bg-red-500 hover:bg-red-600 text-white font-semibold px-2 py-1 w-full"
+                >
+                    Delete Board
+                </button>
+            )}
         </div>
+    </div>
     );
 }

@@ -6,7 +6,9 @@ import Task from '@/models/task';
 export async function GET(request: any, { params }: { params: { boardId: string } }) {
     connectDB();
     try {
-        const board = await Board.findById(params.boardId).populate('tasks');
+        const board = await Board.findById(params.boardId)
+                                 .populate('tasks')
+                                 .populate('priorities'); 
         if (!board) {
             return NextResponse.json({ message: 'Board not found' }, { status: 404 });
         }

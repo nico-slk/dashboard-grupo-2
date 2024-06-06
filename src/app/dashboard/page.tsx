@@ -4,9 +4,14 @@ import BoardCard from "../../components/BoardCard";
 import BoardForm from "../boards/page";
 
 async function loadBoards() {
-  await connectDB();
-  const board = await Board.find();
-  return board;
+  try {
+    await connectDB();
+    const boards = await Board.find(); 
+    return boards;
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+    throw error;
+  }
 }
 
 async function Dashboard() {
