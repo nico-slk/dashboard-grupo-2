@@ -1,7 +1,4 @@
-
 .formContainer {
-    position: absolute;
-    z-index: 100;
     overflow: hidden; 
     transition: height 0.5s ease; 
     height: 30px;
@@ -10,20 +7,21 @@
   .formContainer.open {
     height: auto; 
   }
-
-.toggleButton {
+  
+  .toggleButton {
     display: flex;
     align-items: center;
-}
-
-.arrow {
+  }
+  
+  .arrow {
     transition: transform .2s ease;
-}
-
-.down {
+  }
+  
+  .down {
     transform: rotate(90deg);
-}
-
-.right {
+  }
+  
+  .right {
     transform: rotate(0deg);
-}
+  }
+  

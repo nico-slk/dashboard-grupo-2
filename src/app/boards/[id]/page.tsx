@@ -12,8 +12,10 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useRouter } from "next/navigation";
 import BoardForm from "../page";
 import Link from "next/link";
+import styles from "../../styles.module.css";
 
 interface PriorityProps {
   priority: Priority;
@@ -22,6 +24,18 @@ interface PriorityProps {
 export default function BoardPage({ priority }: PriorityProps) {
   const params = useParams();
   const boardId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const [isTaskExpanded, setIsTaskExpanded] = useState(false);
+  const [isPriorityExpanded, setIsPriorityExpanded] = useState(false);
+
+  const handleTaskToggle = () => {
+    setIsTaskExpanded(!isTaskExpanded);
+  };
+
+  const handlePriorityToggle = () => {
+    setIsPriorityExpanded(!isPriorityExpanded);
+  };
+
+  const router = useRouter();
 
   const [boardData, setBoardData] = useState<Board>({
     _id: "",
@@ -226,6 +240,7 @@ export default function BoardPage({ priority }: PriorityProps) {
           ...prevPriorities,
           newPriority.title,
         ]);
+        router.refresh();
         form.reset();
       } else {
         const errorData = await response.json();
@@ -238,112 +253,182 @@ export default function BoardPage({ priority }: PriorityProps) {
   };
 
   return (
-    <div>
-      <BoardForm />
-      <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black">
-        <h2 className="text-2xl mb-4">Add New Priority</h2>
-        <form onSubmit={handlePrioritySubmit} className="space-y-4 mb-4">
-          <input
-            type="text"
-            name="title"
-            placeholder="Priority Title"
-            className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full  focus:outline-none focus:border-gray-400"
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-lg"
-          >
-            Add Priority
-          </button>
-        </form>
-      </div>
-      <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black">
-        <h2 className="text-2xl mb-4">Tasks</h2>
-        <form onSubmit={handleTaskSubmit} className="space-y-4 mb-4">
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            onChange={handleTaskChange}
-            value={taskData.title}
-            className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400"
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            onChange={handleTaskChange}
-            value={taskData.description}
-            className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400"
-          />
-          <select
-            name="priority"
-            value={taskData.priority}
-            onChange={handleTaskChange}
-            className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full  focus:outline-none focus:border-gray-400"
-          >
-            {priorities.map((priority) => (
-              <option key={priority} value={priority}>
-                {priority}
-              </option>
-            ))}
-          </select>
-          <button
-            type="submit"
-            className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded-lg"
-          >
-            Create Task
-          </button>
-        </form>
-        <div className="flex overflow-x-auto w-full">
-          <div className={`flex mx-auto whitespace-nowrap gap-4 min-h-[600px]`}>
-            {priorities.map((priority) => (
-              <div
-                key={priority}
-                onDrop={(e) => handleDrop(e, priority)}
-                onDragOver={(e) => e.preventDefault()}
-                className="p-4 bg-gray-100 rounded-lg"
-                style={{ minWidth: "280px" }}
+    <div className="flex h-screen">
+      <div className="w-1/4">
+        <BoardForm />
+        <div
+          className={`items-center h-screen shadow-md max-w-sm ${
+            styles.formContainer
+          } ${isPriorityExpanded ? styles.open : ""}`}
+        >
+          <div className="bg-white">
+            <button
+              onClick={handlePriorityToggle}
+              className={`flex justify-between w-full p-1 ${styles.toggleButton}`}
+            >
+              <h2 className="text-md font-semibold text-gray-700 mx-2">
+                Column
+              </h2>
+              <span
+                className={`${styles.arrow} ${
+                  isPriorityExpanded ? styles.down : styles.right
+                }`}
               >
-                <h3 className="text-md mb-2 text-gray-700">{priority}</h3>
-
-                {boardData.tasks
-                  .filter((task) => task.priority === priority)
-                  .map((task) => (
-                    <TaskCard
-                      key={task._id}
-                      task={task}
-                      onDragStart={(e) => handleDragStart(e, task._id)}
-                      draggable
-                    />
-                  ))}
-              </div>
-            ))}
-            {boardData.priorities.map((priority) => (
-              <div
-                key={priority._id}
-                onDrop={(e) => handleDrop(e, priority.title)}
-                onDragOver={(e) => e.preventDefault()}
-                className="p-4 bg-gray-100 rounded-lg"
-                style={{ minWidth: "280px" }}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </span>
+            </button>
+            <form
+              onSubmit={handlePrioritySubmit}
+              className="space-y-4 mb-4 p-2 bg-gray-200"
+            >
+              <input
+                type="text"
+                name="title"
+                placeholder="Column title"
+                className="bg-white font-semibold shadow-md text-gray-600 border border-gray-300 px-2 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400 mx-auto"
+              />
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg"
               >
-                <Link href={`/priority/${priority._id}`}>
-                  <h3 className="text-md mb-2 text-gray-700">
-                    {priority.title}
-                  </h3>
-                </Link>
-                {boardData.tasks
-                  .filter((task) => task.priority === priority.title)
-                  .map((task) => (
-                    <TaskCard
-                      key={task._id}
-                      task={task}
-                      onDragStart={(e) => handleDragStart(e, task._id)}
-                      draggable
-                    />
-                  ))}
-              </div>
-            ))}
+                Add column
+              </button>
+            </form>
           </div>
+        </div>
+
+        <div
+          className={`items-center h-screen shadow-md bg-white max-w-sm ${
+            styles.formContainer
+          } ${isTaskExpanded ? styles.open : ""}`}
+        >
+          <button
+            onClick={handleTaskToggle}
+            className={`flex justify-between w-full p-1 bg-white ${styles.toggleButton}`}
+          >
+            <h2 className="text-md font-semibold text-gray-700 mx-2">Tasks</h2>
+            <span
+              className={`${styles.arrow} ${
+                isTaskExpanded ? styles.down : styles.right
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </span>
+          </button>
+          <div className="bg-white p-2 rounded-lg shadow-md text-black">
+            {/* <h2 className="text-md mb-2 text-gray-700">Tasks</h2> */}
+            <form onSubmit={handleTaskSubmit} className="space-y-4 mb-4 w-full">
+              <input
+                type="text"
+                name="title"
+                placeholder="Title"
+                onChange={handleTaskChange}
+                value={taskData.title}
+                className="bg-gray-200 font-semibold text-gray-600 border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400"
+              />
+              <textarea
+                name="description"
+                placeholder="Description"
+                onChange={handleTaskChange}
+                value={taskData.description}
+                className="bg-gray-200 font-semibold text-gray-600 border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400"
+              />
+              <select
+                name="priority"
+                value={taskData.priority}
+                onChange={handleTaskChange}
+                className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full  focus:outline-none focus:border-gray-400"
+              >
+                {priorities.map((priority) => (
+                  <option key={priority} value={priority}>
+                    {priority}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="submit"
+                className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded-lg"
+              >
+                Create Task
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-x-auto bg-white p-8 rounded-lg shadow-md m-8 text-black">
+        <div className={`flex mx-auto whitespace-nowrap gap-4 min-h-[450px]`}>
+          {priorities.map((priority) => (
+            <div
+              key={priority}
+              onDrop={(e) => handleDrop(e, priority)}
+              onDragOver={(e) => e.preventDefault()}
+              className="p-4 bg-gray-100 rounded-lg"
+              style={{ minWidth: "280px" }}
+            >
+              <h3 className="font-semibold mb-4 text-gray-700">{priority}</h3>
+
+              {boardData.tasks
+                .filter((task) => task.priority === priority)
+                .map((task) => (
+                  <TaskCard
+                    key={task._id}
+                    task={task}
+                    onDragStart={(e) => handleDragStart(e, task._id)}
+                    draggable
+                  />
+                ))}
+            </div>
+          ))}
+          {boardData.priorities.map((priority) => (
+            <div
+              key={priority._id}
+              onDrop={(e) => handleDrop(e, priority.title)}
+              onDragOver={(e) => e.preventDefault()}
+              className="p-4 bg-gray-100 rounded-lg font-semibold mb-4 text-gray-700"
+              style={{ minWidth: "280px" }}
+            >
+              <Link href={`/priority/${priority._id}`}>
+                <h3 className="text-md mb-2 text-gray-700">{priority.title}</h3>
+              </Link>
+              {boardData.tasks
+                .filter((task) => task.priority === priority.title)
+                .map((task) => (
+                  <TaskCard
+                    key={task._id}
+                    task={task}
+                    onDragStart={(e) => handleDragStart(e, task._id)}
+                    draggable
+                  />
+                ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>
