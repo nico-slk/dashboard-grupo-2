@@ -9,7 +9,10 @@ const LanguangeChange = () => {
 
   const handleChangeLanguage = (e: ChangeEvent<HTMLSelectElement>) => {
     const nextLocale = e.target.value;
-    router.replace(`/${nextLocale}`);
+    const currentLocale = window.location.pathname.slice(1, 3);
+    const next = window.location.pathname.replace(currentLocale, nextLocale);
+
+    router.replace(next);
   };
 
   return (
