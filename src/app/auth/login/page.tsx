@@ -7,8 +7,8 @@ import { FormEvent, useEffect, useState } from 'react';
 
 const styles = {
   input: "my-6 h-12 p-4 w-4/6 bg-slate-300 text-black rounded-lg border-2 border-solid border-slate-400",
-  button: "w-48 p-3 border-solid rounded-lg bg-slate-400 border-4 my-6",
-  btn_google: 'bg-red-600 rounded-lg border-2 border-red-400 p-3 font-semibold text-lg',
+  button: "w-48 p-3 rounded-lg bg-slate-400 hover:bg-slate-500 my-6",
+  btn_google: 'bg-red-600 hover:bg-red-700 rounded-lg p-3 font-semibold text-lg',
   form: "flex flex-col w-4/6 items-center h-[600px] min-w-[600px]",
   errorMessage: 'my-6 h-12 p-4 w-4/6 bg-red-500 text-white rounded-lg flex justify-center items-center'
 };
