@@ -1,14 +1,15 @@
-import { NextResponse } from 'next/server';
 import { connectDB } from '@/libs/db';
 import Board from '@/models/board';
 import Task from '@/models/task';
+import { NextResponse } from 'next/server';
 
-export async function GET(request: any, { params }: { params: { boardId: string } }) {
-    connectDB();
+export async function GET(request: any, { params }: { params: { boardId: string; }; }) {
+    connectDB();;
+
     try {
         const board = await Board.findById(params.boardId)
-                                 .populate('tasks')
-                                 .populate('priorities'); 
+            .populate('tasks')
+            .populate('priorities');
         if (!board) {
             return NextResponse.json({ message: 'Board not found' }, { status: 404 });
         }
@@ -19,7 +20,7 @@ export async function GET(request: any, { params }: { params: { boardId: string 
 }
 
 
-export async function POST(request: { json: () => any }) {
+export async function POST(request: { json: () => any; }) {
     connectDB();
     try {
         const data = await request.json();
@@ -34,7 +35,7 @@ export async function POST(request: { json: () => any }) {
     }
 }
 
-export async function PUT(request: any, { params }: { params : { boardId: string } }) {
+export async function PUT(request: any, { params }: { params: { boardId: string; }; }) {
     connectDB();
     try {
         const data = await request.json();
@@ -49,7 +50,7 @@ export async function PUT(request: any, { params }: { params : { boardId: string
     }
 }
 
-export async function DELETE(request: any, { params }: { params: { boardId: string }}) {
+export async function DELETE(request: any, { params }: { params: { boardId: string; }; }) {
     connectDB();
     try {
         const boardDeleted = await Board.findByIdAndDelete(params.boardId);

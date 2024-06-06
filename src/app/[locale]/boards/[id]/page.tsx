@@ -4,6 +4,7 @@ import { Board } from "@/types/board";
 import { Priority } from "@/types/priority";
 import { Task } from "@/types/task";
 import { useSession } from "next-auth/react";
+import { useTranslations } from 'next-intl';
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
@@ -21,6 +22,8 @@ interface PriorityProps {
 export default function BoardPage({ priority }: PriorityProps) {
   const params = useParams();
   const boardId = Array.isArray(params.id) ? params.id[0] : params.id;
+  const translation = useTranslations('priorities');
+  const boardTranslate = useTranslations('board');
 
   const [boardData, setBoardData] = useState<Board>({
     _id: "",
@@ -240,36 +243,36 @@ export default function BoardPage({ priority }: PriorityProps) {
     <div className='flex flex-col items-center  w-full  min-w-[600px]'>
       {/* <BoardForm /> */}
       <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black w-full max-w-[800px]">
-        <h2 className="text-2xl mb-4">Add New Priority</h2>
+        <h2 className="text-2xl mb-4">{translation('addNewPriority')}</h2>
         <form onSubmit={handlePrioritySubmit} className="space-y-4 mb-4">
           <input
             type="text"
             name="title"
-            placeholder="Priority Title"
+            placeholder={boardTranslate('priorityTitle')}
             className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full  focus:outline-none focus:border-gray-400"
           />
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-2 rounded-lg"
           >
-            Add Priority
+            {translation('addPriority')}
           </button>
         </form>
       </div>
       <div className="bg-white p-8 rounded-lg shadow-md m-8 text-black w-full max-w-[800px]" >
-        <h2 className="text-2xl mb-4">Tasks</h2>
+        <h2 className="text-2xl mb-4">{boardTranslate('boardTitle')}</h2>
         <form onSubmit={handleTaskSubmit} className="space-y-4 mb-4">
           <input
             type="text"
             name="title"
-            placeholder="Title"
+            placeholder={boardTranslate('titlePlaceholder')}
             onChange={handleTaskChange}
             value={taskData.title}
             className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400"
           />
           <textarea
             name="description"
-            placeholder="Description"
+            placeholder={boardTranslate('titleDescription')}
             onChange={handleTaskChange}
             value={taskData.description}
             className="bg-gray-200 border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-gray-400"
@@ -290,7 +293,7 @@ export default function BoardPage({ priority }: PriorityProps) {
             type="submit"
             className="bg-green-500 hover:bg-green-600 text-white font-bold px-4 py-2 rounded-lg"
           >
-            Create Task
+            {translation('createTask')}
           </button>
         </form>
         <div className="flex overflow-x-auto w-full">

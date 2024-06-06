@@ -1,6 +1,7 @@
 'use client';
 import GoogleLogo from '@/assets/google-icon.svg';
 import { signIn, useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ const LogIn = () => {
   const [isAuth, setIsAuth] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
+  const translation = useTranslations('login');
 
   const handleLogIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,12 +52,12 @@ const LogIn = () => {
 
     return (
       <div className='flex justify-center min-w-[600px] items-center flex-col h-full w-full'>
-        <p>Log in</p>
+        <p>{translation('pageTitle')}</p>
         <form action="" method="post" className={styles.form} onSubmit={handleLogIn}>
           {errorState !== '' && <div className={styles.errorMessage}>{errorState}</div>}
           <input type="email" name="email" id="input-email" placeholder='example@email.com' className={styles.input} />
           <input type="password" name="password" id="input-password" placeholder='********' className={styles.input} />
-          <button type="submit" className={styles.button}>Log in</button>
+          <button type="submit" className={styles.button}>{translation('button')}</button>
           <button type="button" onClick={async () => await signIn("google")} className={styles.btn_google}>
             <Image
               src={GoogleLogo}

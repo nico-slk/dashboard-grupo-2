@@ -1,0 +1,68 @@
+{
+  "home": {
+    "welcome": "Bienvenido a",
+    "dashboard": "Tablero",
+    "goToDashboard": "Ir al tablero"
+  },
+  "docs": {
+    "welcome": "Bienvenido",
+    "intro_I": "Bienvenido al dashboard de Hedy. Acá vas a poder gestionar tus tareas en forma de tickes. Escoger la severidad y el estado de progreso en el que se encuentra",
+    "intro_II": "Espero que tu tiempo en nuestra web sea de tu agrado. Empecemos...",
+    "doc_login_title": "Loguearse",
+    "login_tuto_I": "Para loguearte, primero acercate al botón que dice ''Register''. Al ingresar, completa con tus datos ''Nombre'', ''Email'' y ''Contraseña''.",
+    "login_tuto_II": "Una vez que ya estes logueado, automaticamente te va a redirigir al dashboard donde vas a pode crear tu primer tablero.",
+    "login_tuto_III": "En caso de que ya cuentes con una cuenta en Hedy Dashboard, solo tenes que ir al botón que dice ''Log In'' y te llevará al formulario de inicio de sesión y completes los campos con tus credenciales",
+    "login_tuto_IV": "De igual manera, una vez que hayas iniciado sesión, el sistema te redirigrá a tu dashboard donde vas a ver tus tableros o crear uno nuevo.",
+    "login_tuto_google": "En caso que desees, vas a poder registrarte o iniciar sesión con tu cuenta de Google clickeando el botón con el icono de Google y seguir los pasos y dando los permisos.",
+    "doc_createBoard_title": "Crear un tablero",
+    "createBoard_tuto_I": "Para crear un tablero, clieckea donde dice ''Create Board'' y se desplegará un formulario donde simplemente debes ingresar el nombre del tablero y una descripción.",
+    "createBoard_tuto_II": "Al haber llenado los campos, clickea en donde dice ''Create'' y verás como se agrega el tablero en tu lista de tableros.",
+    "createBoard_tuto_III": "Para ingresar al tablero, solo debes clickearlo.",
+    "doc_addPriority_title": "Agregar prioridad",
+    "add_priority_I": "Al ingresar al tablero, vas a poder agregarle una nueva prioridad, eligiendo el nombre y cliekeando donde dice ''Add Priority''",
+    "doc_createTicket_title": "Crear ticket",
+    "createTicket_tuto_I": "Para crear un ticket, completa los campos y selecciona una ''Task list'' para seleccionar el estado de progreso de esta. Luego clickea en el boton ''Create Task''",
+    "createTicket_tuto_II": "Una vez agergado, verás este ticket en la columna seleccionada segun el progreso.",
+    "createTicket_tuto_III": "Para modificar el estado del ticket, solo clickealo y arrastralo a la columna que desees.",
+    "doc_editTicket_title": "Editar ticket",
+    "editTicket_tuto_I": "Para modificar un ticket, clickealo y vuelve a completar sus campos. Al finalizar, da click en el boton ''Update Task''",
+    "editTicket_tuto_delete": "Para eliminar, simplemente da click en ''Delete''"
+  },
+  "lagSelector": {
+    "selectLanguage": "Selecciona un lenguaje"
+  },
+  "register": {
+    "pageTitle": "Pagina de registro",
+    "button": "Registrar"
+  },
+  "login": {
+    "pageTitle": "Pagina de inicio de sesion",
+    "button": "Iniciar sesion"
+  },
+  "navBar": {
+    "logIn": "Iniciar sesion",
+    "logOut": "Cerrar sesion",
+    "register": "Registrarse"
+  },
+  "priorities": {
+    "addNewPriority": "Agregar nueva prioridad",
+    "addPriority": "Agregar prioridad",
+    "createTask": "Crear tarea"
+  },
+  "board": {
+    "boardTitle": "Tareas",
+    "titlePlaceholder": "Titulo",
+    "titleDescription": "Descripcion",
+    "priorityTitle": "Titulo de la prioridad"
+  },
+  "dashboard": {
+    "createdAt": "Fecha de creacion"
+  },
+  "boardForm": {
+    "createBoard": "Crear tablero",
+    "updateBoard": "Actualizar tablero",
+    "deleteBoard": "Eliminar tablero",
+    "formPlaceholderTitle": "Titulo",
+    "formPlaceholderDescription": "Descripcion"
+  }
+}

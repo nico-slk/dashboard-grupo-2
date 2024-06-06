@@ -1,0 +1,68 @@
+{
+  "home": {
+    "welcome": "Welcome to",
+    "dashboard": "Dashboard",
+    "goToDashboard": "Go to Dashboard"
+  },
+  "docs": {
+    "welcome": "Welcome",
+    "intro_I": "Welcome to Hedy's dashboard. Here you will be able to manage your tasks in the form of ticks. Choose the severity and the state of progress you are in",
+    "intro_II": "I hope you enjoy your time on our website. Let us begin...",
+    "doc_login_title": "Login",
+    "login_tuto_I": "To log in, first go to the button that says ''Register''. When entering, complete your information ''Name'', ''Email'' and ''Password''.",
+    "login_tuto_II": "Once you are logged in, it will automatically redirect you to the dashboard where you can create your first dashboard.",
+    "login_tuto_III": "If you already have an account on Hedy Dashboard, you just have to go to the button that says ''Log In'' and it will take you to the login form and complete the fields with your credentials",
+    "login_tuto_IV": "Likewise, once you have logged in, the system will redirect you to your dashboard where you will see your dashboards or create a new one.",
+    "login_tuto_google": "If you wish, you will be able to register or log in with your Google account by clicking the button with the Google icon and following the steps and giving the permissions.",
+    "doc_createBoard_title": "Create a board",
+    "createBoard_tuto_I": "To create a board, click where it says ''Create Board'' and a form will be displayed where you simply have to enter the name of the board and a description.",
+    "createBoard_tuto_II": "Having filled out the fields, click where it says ''Create'' and you will see how the board is added to your list of boards.",
+    "createBoard_tuto_III": "To enter the board, you just have to click.",
+    "doc_addPriority_title": "Add priority",
+    "add_priority_I": "When you enter the dashboard, you will be able to add a new priority, choosing the name and clicking where it says ''Add Priority''",
+    "doc_createTicket_title": "Create ticket",
+    "createTicket_tuto_I": "To create a ticket, complete the fields and select a ''Task list'' to select its progress status. Then click on the ''Create Task''",
+    "createTicket_tuto_II": "Once added, you will see this ticket in the selected column based on progress.",
+    "createTicket_tuto_III": "To modify the status of the ticket, just click on it and drag it to the column you want.",
+    "doc_editTicket_title": "Edit ticket",
+    "editTicket_tuto_I": "To modify a ticket, click on it and complete its fields again. When finished, click on the ''Update Task''",
+    "editTicket_tuto_delete": "To delete, simply click on ''Delete''"
+  },
+  "lagSelector": {
+    "selectLanguage": "Select language"
+  },
+  "register": {
+    "pageTitle": "Register Page",
+    "button": "Register"
+  },
+  "login": {
+    "pageTitle": "Login Page",
+    "button": "LogIn"
+  },
+  "navBar": {
+    "logIn": "Log In",
+    "logOut": "Log Out",
+    "register": "Register"
+  },
+  "priorities": {
+    "addNewPriority": "Add New Priority",
+    "addPriority": "Add Priority",
+    "createTask": "Create Task"
+  },
+  "board": {
+    "boardTitle": "Tasks",
+    "titlePlaceholder": "Title",
+    "titleDescription": "Description",
+    "priorityTitle": "Priority Title"
+  },
+  "dashboard": {
+    "createdAt": "Created at"
+  },
+  "boardForm": {
+    "createBoard": "Create Board",
+    "updateBoard": "Update Board",
+    "deleteBoard": "Delete Board",
+    "formPlaceholderTitle": "Title",
+    "formPlaceholderDescription": "Description"
+  }
+}
