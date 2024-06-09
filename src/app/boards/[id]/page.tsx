@@ -5,23 +5,13 @@ import { Priority } from "@/types/priority";
 import { Task } from "@/types/task";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import {
-  ChangeEvent,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import BoardForm from "../page";
 import Link from "next/link";
 import styles from "../../styles.module.css";
 
-interface PriorityProps {
-  priority: Priority;
-}
-
-export default function BoardPage({ priority }: PriorityProps) {
+export default function BoardPage() {
   const params = useParams();
   const boardId = Array.isArray(params.id) ? params.id[0] : params.id;
   const [isTaskExpanded, setIsTaskExpanded] = useState(false);
@@ -40,6 +30,7 @@ export default function BoardPage({ priority }: PriorityProps) {
   const [boardData, setBoardData] = useState<Board>({
     _id: "",
     title: "",
+    createdBy: "",
     description: "",
     tasks: [],
     priorities: [],
@@ -57,21 +48,14 @@ export default function BoardPage({ priority }: PriorityProps) {
     createdBy: "",
   });
 
-  const [priorities, setPriorities] = useState<string[]>([
-    "Task List",
-    "To do",
-    "Doing",
-    "Done",
-  ]);
+  const predefinedPriorities = useMemo(() => [
+    { _id: "default-task-list", title: "Task List" },
+    { _id: "default-to-do", title: "To do" },
+    { _id: "default-doing", title: "Doing" },
+    { _id: "default-done", title: "Done" },
+  ], []);
 
-  const [colData, setColData] = useState<
-    Omit<Priority, "board" | "createdAt" | "updatedAt" | "__v">
-  >({
-    _id: "",
-    title: "",
-    priority: priorities,
-    createdBy: "",
-  });
+  const [priorities, setPriorities] = useState<string[]>(predefinedPriorities.map((p: { title: string; }) => p.title));
 
   const { data: session } = useSession();
 
@@ -82,6 +66,7 @@ export default function BoardPage({ priority }: PriorityProps) {
         const data = await res.json();
         if (res.ok) {
           setBoardData(data);
+          setPriorities(predefinedPriorities.map((p: { title: string; }) => p.title).concat(data.priorities.map((p: Priority) => p.title)));
         } else {
           console.error("Failed to fetch board data:", data.message);
         }
@@ -89,48 +74,11 @@ export default function BoardPage({ priority }: PriorityProps) {
         console.error("Error fetching board data:", error);
       }
     }
-  }, [boardId]);
-
-  const fetchTasks = useCallback(async () => {
-    if (boardId) {
-      try {
-        const res = await fetch(`/api/boards/${boardId}`);
-        const tasks = await res.json();
-        if (res.ok) {
-          setBoardData((prevData) => ({
-            ...prevData,
-            tasks: tasks,
-          }));
-        } else {
-          console.error("Failed to fetch tasks:", tasks.message);
-        }
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-    }
-  }, [boardId]);
-
-  const fetchPriorities = useCallback(async () => {
-    if (boardId) {
-      try {
-        const res = await fetch(`/api/boards/${boardId}`);
-        const data = await res.json();
-        if (res.ok) {
-          setColData(data);
-        } else {
-          console.error("Failed to fetch priorities:", data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching priorities:", error);
-      }
-    }
-  }, [boardId]);
+  }, [boardId, predefinedPriorities]);
 
   useEffect(() => {
     fetchBoard();
-    fetchTasks();
-    fetchPriorities();
-  }, [fetchBoard, fetchTasks, fetchPriorities]);
+  }, [fetchBoard]);
 
   const handleTaskSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -227,7 +175,6 @@ export default function BoardPage({ priority }: PriorityProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...colData,
           title: title,
           boardId: boardId,
           createdBy: session?.user?.email || "",
@@ -236,6 +183,10 @@ export default function BoardPage({ priority }: PriorityProps) {
 
       if (response.ok) {
         const newPriority = await response.json();
+        setBoardData((prevData) => ({
+          ...prevData,
+          priorities: [...prevData.priorities, newPriority],
+        }));
         setPriorities((prevPriorities) => [
           ...prevPriorities,
           newPriority.title,
@@ -384,18 +335,17 @@ export default function BoardPage({ priority }: PriorityProps) {
 
       <div className="flex-1 overflow-x-auto bg-white p-8 rounded-lg shadow-md m-8 text-black">
         <div className={`flex mx-auto whitespace-nowrap gap-4 min-h-[450px]`}>
-          {priorities.map((priority) => (
+          {predefinedPriorities.map((priority) => (
             <div
-              key={priority}
-              onDrop={(e) => handleDrop(e, priority)}
+              key={priority._id}
+              onDrop={(e) => handleDrop(e, priority.title)}
               onDragOver={(e) => e.preventDefault()}
               className="p-4 bg-gray-100 rounded-lg"
               style={{ minWidth: "280px" }}
             >
-              <h3 className="font-semibold mb-4 text-gray-700">{priority}</h3>
-
+              <h3 className="font-semibold mb-4 text-gray-700">{priority.title}</h3>
               {boardData.tasks
-                .filter((task) => task.priority === priority)
+                .filter((task) => task.priority === priority.title)
                 .map((task) => (
                   <TaskCard
                     key={task._id}
@@ -411,11 +361,11 @@ export default function BoardPage({ priority }: PriorityProps) {
               key={priority._id}
               onDrop={(e) => handleDrop(e, priority.title)}
               onDragOver={(e) => e.preventDefault()}
-              className="p-4 bg-gray-100 rounded-lg font-semibold mb-4 text-gray-700"
+              className="p-4 bg-gray-100 rounded-lg"
               style={{ minWidth: "280px" }}
             >
               <Link href={`/priority/${priority._id}`}>
-                <h3 className="text-md mb-2 text-gray-700">{priority.title}</h3>
+                <h3 className="font-semibold mb-4 text-gray-700">{priority.title}</h3>
               </Link>
               {boardData.tasks
                 .filter((task) => task.priority === priority.title)

@@ -1,5 +1,6 @@
 import { Task } from "./task";
 export interface Board {
+    createdBy: ReactNode;
     _id: string;
     title: string;
     tasks: Task[]; 
