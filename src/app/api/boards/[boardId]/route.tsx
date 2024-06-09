@@ -1,19 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { connectDB } from '@/libs/db';
 import Board from '@/models/board';
 import Task from '@/models/task';
+import Priority from '@/models/priority';
 
 export async function GET(request: any, { params }: { params: { boardId: string } }) {
-    connectDB();
+    connectDB(); 
+
     try {
-        const board = await Board.findById(params.boardId)
-                                 .populate('tasks')
-                                 .populate('priorities'); 
+        const board = await Board.findById(params.boardId).populate('tasks').populate('priorities');
+
         if (!board) {
             return NextResponse.json({ message: 'Board not found' }, { status: 404 });
         }
+
         return NextResponse.json(board);
     } catch (error) {
+        console.error(error);
         return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
     }
 }
@@ -61,6 +64,7 @@ export async function DELETE(request: any, { params }: { params: { boardId: stri
         }
 
         await Task.deleteMany({ board: params.boardId });
+        await Priority.deleteMany({ board: params.boardId})
 
         return NextResponse.json(boardDeleted);
     } catch (error) {
